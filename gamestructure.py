@@ -1,10 +1,10 @@
 # Some format notes and framework for adventure games:
-# 1. classes will be you're friends, they let you make for example players accoridng to a template. 
+# 1. classes will be your friends, they let you make for example players accoridng to a template. 
 # then you can define actions on these templates like say "attack" or "defend"
-# 2. Structure it thios way:
-#  a) an external gamestate valiable holding mor eor less everything you need to know about the game
-#  b) a while loop that will call until the gamestate is complete
-#  c) a home function that will read the gamestate and decide what the next phase is.
+# 2. Structure it this way:
+#  a) an external game_state variable holding more or less everything you need to know about the game
+#  b) a while loop that will recurr until the gamestate is complete
+#  c) a home function that will read the gamestate and decide what the next phase is, acting as the node for all game logic.
 # See the bottom of this file for the implementation of this structure.
 # Advantage of it is we don't need to write the whole flow of the game from top to bottom.
 # The GameState variable records progress.
@@ -16,7 +16,7 @@ from typing import List  # I'm importing this for typing hints.
 # Typing hints in python are non-binding (You can say somethings a string, it might still work with a number), 
 # but very useful for clarifying your code.
 # When you declare a variable they let you say what kind of object is it, a string, int, or custom class
-# This is super handy when trying to keep track of the methods available.
+# This is super handy when trying to keep track of the methods and properties available.
 # If you're using VS code (and you should) when you give a function argument
 # like def my_func(my_var):, you can add a typing hint so vscode knows it's a string like so:
 # def  my_func(my_var: str)
@@ -28,7 +28,7 @@ from typing import List  # I'm importing this for typing hints.
 
 
 # You may not have made it to custom classes yet. 
-# They are just like the built in types in that you can create an instance of them,
+# They are just like the built in types (str, int, list etc.) in that you can create an instance of them,
 # then call methods and properties on them.
 # Super useful for tracking structured data in one place like all of a players stats.
 class Item():
@@ -53,8 +53,8 @@ class Player():
         # self, refers to the instance itself and doesn't need an argument to stand in for it when the method is called
         # it's implicit in the fact it's being called as a method "variable.method_name()"
         self.name = name  # You'll see lines like this in __init__ all the time, 
-        self.hp = hp  #     We are setting the valiable passes after the class name on instatiation
-        self.items = items  # to a property we can access via dot notation:
+        self.hp = hp      # We are setting the variables passed after the class name on instatiation
+        self.items = items # to a property we can access via dot notation:
         # charlie = Player("Charlie", 100, ["blunderbus"], 7)
         # charlier.hp => returns 100
 
@@ -72,7 +72,7 @@ class HumanPlayer(Player): # When defining a class the variable in the brackets 
         super().__init__(name, hp, items)  # super(). refers to the super class in this case Player.
         # So here we do something new, assign teammates, which would overwrite the __init__ method and 
         # leave name, hp, and items unassigned as properties of the HumanPlayer instance,
-        # so we after assigning teammates we access the Player class it's based on with super(). and run it's init
+        # so after assigning teammates we access the Player class it's based on with super(). and run its init
         # logic on our own instance with super.__init__(name, hp, items)  
 
 class GameState():
@@ -83,10 +83,10 @@ class GameState():
 game_state = GameState()
 
 def level_0():
-    # Charachter creation here:
+    # Character creation here:
     # name = input(), etc...
     # game_state.human_player = HumanPlayer(name...)
-    # Increment the round on completion, or don't if they lose, in which case it will start again.:
+    # Increment the round on completion, or don't if they lose, in which case it will start again ont eh next while loop.:
     # if victory:
     #     game_state.level = 1
     pass # placeholder do nothing command as a empty function is invalid syntax
